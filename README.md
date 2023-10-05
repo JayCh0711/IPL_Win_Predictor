@@ -1,4 +1,4 @@
 # IPL_Win_Predictor
 
 
-#app link https://iplwinpredictorjaychakraborty.streamlit.app/
+#app link https://iplwinpredictor-jaychakraborty.streamlit.app/
