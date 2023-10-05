@@ -52,6 +52,7 @@ with col4:
 
 with col5:
     wickets = int(st.number_input('Wickets Fallen', step=1))
+
 if score > target:
     st.write(battingteam, "won the match")
 elif score == target - 1 and overs == 20:
@@ -78,22 +79,29 @@ else:
                                          'runs_left': [runs_left], 'balls_left': [
                         balls_left], 'wickets': [wickets], 'total_runs_x': [target], 'cur_run_rate': [currentrunrate],
                                          'req_run_rate': [requiredrunrate]})
+                cols_to_transform = ['batting_team', 'bowling_team','city']
 
-                st.table(input_df)
-                cols_to_transform = ['batting_team','bowling_team','city']
+
+              #  st.table(input_df)
+              #  cols_to_transform = ['batting_team','bowling_team','city']
+              # Apply one-hot encoding
                 ct = ColumnTransformer(
                 transformers=[
                          ('onehot', OneHotEncoder(), cols_to_transform)
                      ],
                      remainder='passthrough'
                  )
-                input_df = pd.get_dummies(input_df, drop_first = True)
-                st.table(input_df)
-                encoder = OneHotEncoder()
-                encoder.fit(input_df)
-                one_hot_encoded_data = encoder.transform(input_df)
-                st.table(one_hot_encoded_data)
-                result = pipe.predict_proba(input_df)
+
+                input_df_encoded = ct.fit_transform(input_df)
+               # input_df = pd.get_dummies(input_df, drop_first = True)
+               # st.table(input_df)
+               # encoder = OneHotEncoder()
+               # encoder.fit(input_df)
+               # one_hot_encoded_data = encoder.transform(input_df)
+              #  st.table(one_hot_encoded_data)
+
+                # Predict using the pre-trained model
+                result = pipe.predict_proba(input_df_encoded)
                 lossprob = result[0][0]
                 winprob = result[0][1]
 
